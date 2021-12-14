@@ -6,28 +6,40 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
+
+import javax.print.attribute.SupportedValuesAttribute;
 
 public class HttpServer 
 
 {
     public static void main(String[] args) throws IOException {
         
-        //declare socket variable
         Socket socket;
-        //declare a serverSocket variable
         ServerSocket serverSocket;
-        //declare a string to store the filename
-        String inputFile = "cookie_file.txt";
+        String inputFile;
+        Integer port = 0;
+        Scanner scans = new Scanner(System.in);
+        InputHandler handler = new InputHandler();
 
-        if (args != null && args.length >= 1)
+        String commands;
+        String arguments;
+
+        commands = scans.next();
+        arguments = scans.nextLine();
+
+        if (args!=null && args.length >=1){
             inputFile = args[0];
-        else {
-            System.out.println("You didn't provide a file to" +
-                    "read the cookies.Will try to read from default file.");
+            if(commands.contains("port")){
+                handler.getportNumber(commands, arguments, port);
+            }
+        }
+        else{
+            System.out.println("Hello");
         }
 
-        System.out.println("Server listening at port 12345...");
-        serverSocket = new ServerSocket(12345);
+        System.out.println("Server listening at port" + port);
+        serverSocket = new ServerSocket(port);
         socket = serverSocket.accept();
 
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -41,9 +53,8 @@ public class HttpServer
             
             try {
                 
-                if ("get-cookie".equals(line)) {
-                    System.out.println("Sending a cookie..");
-                    out.println("cookie-text ");
+                if ("testserver".equals(line)) {
+                    System.out.println("Getting some data");
                     out.flush();
                     line = in.readLine();
                 } else {
@@ -58,7 +69,7 @@ public class HttpServer
             } 
         }
 
-        socket.close();
-        serverSocket.close();
+
+
     }
 }

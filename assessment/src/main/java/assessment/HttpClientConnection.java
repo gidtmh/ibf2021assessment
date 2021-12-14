@@ -12,8 +12,8 @@ public class HttpClientConnection {
     public static void main(String[] args) 
             throws UnknownHostException, IOException   {
         
-                System.out.println("Creating client socket..");
-        Socket socket = new Socket("localhost", 12345);
+        System.out.println("Creating client socket..");
+        Socket socket = new Socket("localhost", 80);
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(socket.getInputStream()));
